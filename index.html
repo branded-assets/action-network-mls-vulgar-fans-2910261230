@@ -1,0 +1,446 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Most Foul-Mouthed &amp; Negative MLS Fandoms</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Space+Mono:wght@400;700&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#0B0D12;
+    --panel:#12151C;
+    --panel2:#171B24;
+    --line: rgba(236,233,225,0.10);
+    --line-strong: rgba(236,233,225,0.18);
+    --chalk:#ECE9E1;
+    --dim:#8A93A6;
+    --orange:#FF6A3D;
+    --orange-dim: rgba(255,106,61,0.18);
+    --foul:#E23B4E;
+    --foul-dim: rgba(226,59,78,0.16);
+    --blue:#4C8DFF;
+    --blue-dim: rgba(76,141,255,0.16);
+    --green:#3DDC97;
+    --gold:#FFC145;
+  }
+  *{box-sizing:border-box;}
+  body{margin:0;background:transparent;}
+  .wrap{
+    width:100%;
+    max-width:900px;
+    margin:0 auto;
+    background: var(--ink);
+    color:var(--chalk);
+    font-family:'Inter',sans-serif;
+    border:1px solid var(--line-strong);
+    border-radius:14px;
+    overflow:hidden;
+    position:relative;
+  }
+
+  .motif{position:absolute; inset:0; width:100%; height:100%; z-index:0; pointer-events:none;}
+  header > *:not(.motif){position:relative; z-index:2;}
+  header{
+    position:relative; z-index:2; overflow:hidden;
+    padding:26px 34px 22px;
+    border-bottom:1px solid var(--line);
+  }
+  h1{
+    font-family:'Anton',sans-serif;
+    font-weight:400;
+    text-transform:uppercase;
+    font-size:40px;
+    line-height:0.98;
+    letter-spacing:0.5px;
+    margin:0 0 8px;
+  }
+  h1 .white{color:var(--chalk);}
+  h1 .accent{color:var(--foul);}
+  .sub{
+    font-size:14px; color:var(--dim); max-width:620px; line-height:1.5;
+  }
+
+  .switch-label{
+    position:relative; z-index:2;
+    font-family:'Space Mono',monospace;
+    font-size:15px; letter-spacing:1.8px; text-transform:uppercase;
+    color:var(--chalk); font-weight:700;
+    padding:20px 34px 0;
+  }
+
+  nav.tabs{
+    position:relative; z-index:2;
+    display:flex; flex-wrap:wrap; gap:8px;
+    padding:10px 34px 0;
+  }
+  .tab{
+    font-family:'Space Mono',monospace;
+    font-size:11.5px; letter-spacing:1.4px; text-transform:uppercase;
+    font-weight:700;
+    color:var(--dim);
+    background:var(--panel2);
+    border:1px solid var(--line-strong);
+    padding:9px 14px;
+    border-radius:999px;
+    cursor:pointer;
+    transition:all .18s ease;
+    user-select:none;
+  }
+  .tab:hover{ color:var(--chalk); border-color:rgba(236,233,225,0.3); }
+  .tab.active{
+    color:var(--ink);
+    background:var(--chalk);
+    border-color:var(--chalk);
+  }
+  .tab.active[data-tone="foul"]{ background:var(--foul); color:#fff; border-color:var(--foul);}
+  .tab.active[data-tone="neg"]{ background:var(--orange); color:#1a0a03; border-color:var(--orange);}
+  .tab.active[data-tone="pos"]{ background:var(--blue); color:#fff; border-color:var(--blue);}
+  .tab.active[data-tone="polite"]{ background:var(--green); color:#08160f; border-color:var(--green);}
+  .tab.active[data-tone="kw"]{ background:var(--gold); color:#1a0a03; border-color:var(--gold);}
+
+  .panel-meta{
+    position:relative; z-index:2;
+    padding:20px 34px 0;
+    display:flex; justify-content:space-between; align-items:baseline;
+    font-family:'Space Mono',monospace;
+  }
+  .panel-title{ font-size:13px; letter-spacing:1.5px; text-transform:uppercase; color:var(--chalk); font-weight:700;}
+  .panel-note{ font-size:11px; color:var(--dim);}
+
+  main{ position:relative; z-index:2; padding:14px 34px 6px; }
+
+  .row{
+    display:grid;
+    grid-template-columns:34px 1fr 96px;
+    align-items:center;
+    gap:14px;
+    padding:9px 0;
+    border-bottom:1px solid var(--line);
+  }
+  .row:last-child{border-bottom:none;}
+  .row.kwrow{grid-template-columns:1fr 110px;}
+  .rank{
+    font-family:'Space Mono',monospace;
+    font-weight:700; font-size:13px;
+    color:var(--dim);
+    width:34px; height:24px;
+    display:flex; align-items:center; justify-content:center;
+    border-radius:4px;
+  }
+  .row.top .rank{ background:var(--foul); color:#fff; }
+  .row.top.neg .rank{ background:var(--orange); color:#1a0a03; }
+  .row.top.pos .rank{ background:var(--blue); color:#fff; }
+  .row.top.polite .rank{ background:var(--green); color:#08160f; }
+  .row.top.kw .rank{ background:var(--gold); color:#1a0a03; }
+  .team-line{ min-width:0; }
+  .team-name{
+    font-size:14.5px; font-weight:600; letter-spacing:0.2px;
+    display:flex; align-items:center; gap:8px;
+    margin-bottom:5px;
+  }
+  .row.top .team-name{ font-weight:800; }
+  .bar-track{
+    position:relative;
+    height:9px; border-radius:5px;
+    background:rgba(236,233,225,0.07);
+    overflow:hidden;
+  }
+  .bar-fill{
+    position:absolute; left:0; top:0; bottom:0;
+    border-radius:5px;
+    background:linear-gradient(90deg, var(--foul), #ff7a52);
+    transition:width .5s ease;
+  }
+  .bar-fill.pos{ background:linear-gradient(90deg, #2f6fd6, var(--blue)); }
+  .bar-fill.polite{ background:linear-gradient(90deg, #2bb989, var(--green)); }
+  .bar-fill.neg{ background:linear-gradient(90deg, var(--orange), #ffb066); }
+  .bar-fill.kw{ background:linear-gradient(90deg, #c99a1a, var(--gold)); }
+  .pct{
+    font-family:'Space Mono',monospace;
+    font-weight:700; font-size:15px; text-align:right;
+    color:var(--chalk);
+  }
+  .row.top .pct{ color:var(--foul); }
+  .row.top.neg .pct{ color:var(--orange); }
+  .row.top.pos .pct{ color:var(--blue); }
+  .row.top.polite .pct{ color:var(--green); }
+  .row.top.kw .pct{ color:var(--gold); }
+  .subtxt{
+    font-family:'Space Mono',monospace;
+    font-size:10px; color:var(--dim); text-align:right;
+  }
+
+  /* Excluded-team rows (no subreddit / insufficient comments) */
+  .status-row{
+    display:grid;
+    grid-template-columns:34px 1fr auto;
+    align-items:center;
+    gap:14px;
+    padding:9px 0;
+    border-bottom:1px solid var(--line);
+    opacity:0.6;
+  }
+  .status-row:last-child{ border-bottom:none; }
+  .status-team{ font-size:14px; font-weight:600; color:var(--dim); }
+  .status-tag{
+    font-family:'Space Mono',monospace;
+    font-size:10px; letter-spacing:0.6px; text-transform:uppercase;
+    color:var(--dim);
+    background:var(--panel2);
+    border:1px solid var(--line-strong);
+    padding:4px 10px;
+    border-radius:6px;
+    white-space:nowrap;
+  }
+  .excluded-heading{
+    font-family:'Space Mono',monospace;
+    font-size:10.5px; letter-spacing:1px; text-transform:uppercase;
+    color:var(--dim);
+    padding:16px 0 6px;
+    border-top:1px solid var(--line-strong);
+    margin-top:6px;
+  }
+
+  footer{
+    position:relative; z-index:2;
+    padding:20px 34px 26px;
+    display:flex; align-items:center; justify-content:space-between;
+    margin-top:8px;
+    flex-wrap:wrap;
+    gap:8px;
+  }
+  .footer-line{
+    font-family:'Space Mono',monospace;
+    font-size:10px; color:var(--dim); letter-spacing:0.5px;
+  }
+  .brand{
+    font-family:'Anton',sans-serif;
+    font-size:15px; letter-spacing:0.5px;
+    color:var(--chalk);
+  }
+
+  .trophy{ font-size:14px; }
+
+  @media (max-width:560px){
+    h1{ font-size:28px; }
+    header, .switch-label, nav.tabs, .panel-meta, main, footer{ padding-left:18px; padding-right:18px; }
+  }
+
+  .search-wrap{position:relative; z-index:2; padding:16px 34px 0;}
+  .search-box{position:relative;}
+  .search-box input{
+    width:100%; box-sizing:border-box;
+    font-family:'Space Mono',monospace; font-size:13px; letter-spacing:0.5px;
+    color:var(--chalk); background:var(--panel2);
+    border:1px solid var(--line-strong); border-radius:999px;
+    padding:11px 40px 11px 40px; outline:none; transition:border-color .18s ease;
+  }
+  .search-box input::placeholder{color:var(--dim);}
+  .search-box input:focus{border-color:var(--gold);}
+  .search-icon{position:absolute; left:15px; top:50%; transform:translateY(-50%); color:var(--dim); pointer-events:none; font-size:14px; line-height:1;}
+  .search-clear{position:absolute; right:12px; top:50%; transform:translateY(-50%); display:none; cursor:pointer; color:var(--dim); font-size:15px; line-height:1; padding:4px 6px;}
+  .search-clear:hover{color:var(--chalk);}
+  .no-results{font-family:'Space Mono',monospace; font-size:12px; color:var(--dim); padding:22px 0; text-align:center;}
+  @media (max-width:560px){ .search-wrap{padding-left:18px; padding-right:18px;} }
+</style>
+</head>
+<body>
+
+<div class="wrap" id="card">
+
+  <header>
+    <svg class="motif" viewBox="0 0 900 190" preserveAspectRatio="xMidYMid slice" aria-hidden="true"><g fill="none" stroke="#ECE9E1" stroke-width="1.6" opacity="0.07"><line x1="640" y1="-20" x2="640" y2="210"/><circle cx="640" cy="95" r="62"/><circle cx="640" cy="95" r="3" fill="#ECE9E1"/><rect x="760" y="25" width="180" height="140"/><rect x="860" y="60" width="80" height="70"/><path d="M760 70 A 50 50 0 0 0 760 120"/></g></svg>
+    <h1><span class="white">Data Analysis:</span> <span class="accent">The Most Foul-Mouthed &amp; Negative MLS Fandoms</span></h1>
+    <p class="sub">Based on an analysis of over 533,000 fan comments across all 30 MLS club subreddits over the last 12 months, screened for profanity and sentiment.</p>
+  </header>
+
+  <div class="switch-label">Switch between sections to explore the full report</div>
+
+  <nav class="tabs" id="tabs">
+    <div class="tab active" data-tone="foul" data-view="vulgar">The Most Foul-Mouthed Fandoms</div>
+    <div class="tab" data-tone="neg" data-view="negative">The Most Negative Fandoms</div>
+    <div class="tab" data-tone="kw" data-view="keywords">Most Used Swear Word Per Fandom</div>
+    <div class="tab" data-tone="pos" data-view="positive">The Most Positive Fandoms</div>
+    <div class="tab" data-tone="polite" data-view="polite">The Most Polite Fandoms</div>
+  </nav>
+
+    <div class="search-wrap">
+    <div class="search-box">
+      <span class="search-icon">&#128269;</span>
+      <input type="text" id="search" placeholder="Search for a club..." autocomplete="off" aria-label="Search for a club">
+      <span class="search-clear" id="searchClear" title="Clear">&#10005;</span>
+    </div>
+  </div>
+
+  <div class="panel-meta">
+    <span class="panel-title" id="panelTitle">Ranked by % of comments containing profanity</span>
+    <span class="panel-note" id="panelNote">High &rarr; Low</span>
+  </div>
+
+  <main id="main"></main>
+
+  <footer>
+    <span class="footer-line" id="footerDate">Final date of analysis: November 2026</span>
+    <span class="brand">ActionNetwork.com</span>
+  </footer>
+</div>
+
+<script>
+/*
+  DATA FORMAT NOTES (fill these in for the new league):
+
+  DATA.vulgar / DATA.polite: array of { team, vulgar_pct, vulgar_count, total }
+    - vulgar = sorted descending by vulgar_pct (most foul-mouthed first)
+    - polite = same array sorted ascending (most polite first)
+
+  DATA.negative: array of { team, neg, neg_count, total }, sorted descending by neg
+
+  DATA.positive: array of { team, pos, pos_count, total }, sorted descending by pos
+
+  DATA.keywords: array of { team, word, count }
+    - if the most-common swear word is THE SAME for every team in the league,
+      sort this array ALPHABETICALLY by team name instead of by count.
+    - if it VARIES by team, sort descending by count (see NHL build for an example
+      of handling a two-word mix, i.e. some teams' top word is "F**k", others "Sh*t").
+    - handle ties by adding "tie": true and showing both words joined with " / ".
+
+  EXCLUDED (optional): array of { team, reason } where reason is a short machine key
+    like "no_sub" or "low_vol" — mapped to a human label in a TAGS object, e.g.:
+      const TAGS = { no_sub: "No subreddit", low_vol: "Not enough comments" };
+    Render these as faded status-rows below the ranked list in every tab, alphabetically.
+    Only needed if some teams had no subreddit or didn't meet a minimum-comment threshold.
+*/
+
+const DATA = {"vulgar": [{"team": "Sporting Kansas City", "vulgar_pct": 14.28, "vulgar_count": 1280, "total": 8962}, {"team": "Real Salt Lake", "vulgar_pct": 13.77, "vulgar_count": 748, "total": 5432}, {"team": "Orlando City SC", "vulgar_pct": 13.44, "vulgar_count": 1538, "total": 11447}, {"team": "San Diego FC", "vulgar_pct": 12.96, "vulgar_count": 1838, "total": 14182}, {"team": "FC Cincinnati", "vulgar_pct": 12.57, "vulgar_count": 3597, "total": 28616}, {"team": "Portland Timbers", "vulgar_pct": 12.56, "vulgar_count": 3178, "total": 25305}, {"team": "Colorado Rapids", "vulgar_pct": 12.5, "vulgar_count": 577, "total": 4615}, {"team": "Charlotte FC", "vulgar_pct": 12.18, "vulgar_count": 2070, "total": 16993}, {"team": "Inter Miami CF", "vulgar_pct": 12.12, "vulgar_count": 3868, "total": 31916}, {"team": "San Jose Earthquakes", "vulgar_pct": 11.84, "vulgar_count": 1451, "total": 12257}, {"team": "LAFC", "vulgar_pct": 11.73, "vulgar_count": 3053, "total": 26018}, {"team": "LA Galaxy", "vulgar_pct": 11.69, "vulgar_count": 1216, "total": 10400}, {"team": "Minnesota United FC", "vulgar_pct": 11.69, "vulgar_count": 4719, "total": 40363}, {"team": "New England Revolution", "vulgar_pct": 11.67, "vulgar_count": 793, "total": 6798}, {"team": "New York City FC", "vulgar_pct": 11.58, "vulgar_count": 960, "total": 8291}, {"team": "Toronto FC", "vulgar_pct": 11.47, "vulgar_count": 1825, "total": 15918}, {"team": "St. Louis City SC", "vulgar_pct": 11.44, "vulgar_count": 3994, "total": 34911}, {"team": "Philadelphia Union", "vulgar_pct": 11.38, "vulgar_count": 3551, "total": 31214}, {"team": "D.C. United", "vulgar_pct": 11.32, "vulgar_count": 1534, "total": 13553}, {"team": "New York Red Bulls", "vulgar_pct": 11.15, "vulgar_count": 826, "total": 7408}, {"team": "Atlanta United", "vulgar_pct": 11.05, "vulgar_count": 3143, "total": 28443}, {"team": "Columbus Crew", "vulgar_pct": 10.64, "vulgar_count": 3826, "total": 35964}, {"team": "Seattle Sounders FC", "vulgar_pct": 10.64, "vulgar_count": 2874, "total": 27017}, {"team": "Nashville SC", "vulgar_pct": 10.54, "vulgar_count": 1017, "total": 9646}, {"team": "Austin FC", "vulgar_pct": 9.96, "vulgar_count": 1845, "total": 18523}, {"team": "FC Dallas", "vulgar_pct": 9.67, "vulgar_count": 227, "total": 2348}, {"team": "Vancouver Whitecaps FC", "vulgar_pct": 9.54, "vulgar_count": 1914, "total": 20055}, {"team": "Chicago Fire FC", "vulgar_pct": 9.54, "vulgar_count": 2634, "total": 27609}, {"team": "Houston Dynamo FC", "vulgar_pct": 8.81, "vulgar_count": 622, "total": 7064}, {"team": "CF Montréal", "vulgar_pct": 5.23, "vulgar_count": 94, "total": 1798}], "polite": [{"team": "CF Montréal", "vulgar_pct": 5.23, "vulgar_count": 94, "total": 1798}, {"team": "Houston Dynamo FC", "vulgar_pct": 8.81, "vulgar_count": 622, "total": 7064}, {"team": "Chicago Fire FC", "vulgar_pct": 9.54, "vulgar_count": 2634, "total": 27609}, {"team": "Vancouver Whitecaps FC", "vulgar_pct": 9.54, "vulgar_count": 1914, "total": 20055}, {"team": "FC Dallas", "vulgar_pct": 9.67, "vulgar_count": 227, "total": 2348}, {"team": "Austin FC", "vulgar_pct": 9.96, "vulgar_count": 1845, "total": 18523}, {"team": "Nashville SC", "vulgar_pct": 10.54, "vulgar_count": 1017, "total": 9646}, {"team": "Seattle Sounders FC", "vulgar_pct": 10.64, "vulgar_count": 2874, "total": 27017}, {"team": "Columbus Crew", "vulgar_pct": 10.64, "vulgar_count": 3826, "total": 35964}, {"team": "Atlanta United", "vulgar_pct": 11.05, "vulgar_count": 3143, "total": 28443}, {"team": "New York Red Bulls", "vulgar_pct": 11.15, "vulgar_count": 826, "total": 7408}, {"team": "D.C. United", "vulgar_pct": 11.32, "vulgar_count": 1534, "total": 13553}, {"team": "Philadelphia Union", "vulgar_pct": 11.38, "vulgar_count": 3551, "total": 31214}, {"team": "St. Louis City SC", "vulgar_pct": 11.44, "vulgar_count": 3994, "total": 34911}, {"team": "Toronto FC", "vulgar_pct": 11.47, "vulgar_count": 1825, "total": 15918}, {"team": "New York City FC", "vulgar_pct": 11.58, "vulgar_count": 960, "total": 8291}, {"team": "New England Revolution", "vulgar_pct": 11.67, "vulgar_count": 793, "total": 6798}, {"team": "Minnesota United FC", "vulgar_pct": 11.69, "vulgar_count": 4719, "total": 40363}, {"team": "LA Galaxy", "vulgar_pct": 11.69, "vulgar_count": 1216, "total": 10400}, {"team": "LAFC", "vulgar_pct": 11.73, "vulgar_count": 3053, "total": 26018}, {"team": "San Jose Earthquakes", "vulgar_pct": 11.84, "vulgar_count": 1451, "total": 12257}, {"team": "Inter Miami CF", "vulgar_pct": 12.12, "vulgar_count": 3868, "total": 31916}, {"team": "Charlotte FC", "vulgar_pct": 12.18, "vulgar_count": 2070, "total": 16993}, {"team": "Colorado Rapids", "vulgar_pct": 12.5, "vulgar_count": 577, "total": 4615}, {"team": "Portland Timbers", "vulgar_pct": 12.56, "vulgar_count": 3178, "total": 25305}, {"team": "FC Cincinnati", "vulgar_pct": 12.57, "vulgar_count": 3597, "total": 28616}, {"team": "San Diego FC", "vulgar_pct": 12.96, "vulgar_count": 1838, "total": 14182}, {"team": "Orlando City SC", "vulgar_pct": 13.44, "vulgar_count": 1538, "total": 11447}, {"team": "Real Salt Lake", "vulgar_pct": 13.77, "vulgar_count": 748, "total": 5432}, {"team": "Sporting Kansas City", "vulgar_pct": 14.28, "vulgar_count": 1280, "total": 8962}], "negative": [{"team": "CF Montréal", "neg": 56.56, "neg_count": 1017, "total": 1798}, {"team": "San Diego FC", "neg": 55.4, "neg_count": 7857, "total": 14182}, {"team": "Inter Miami CF", "neg": 54.97, "neg_count": 17543, "total": 31916}, {"team": "Sporting Kansas City", "neg": 54.13, "neg_count": 4851, "total": 8962}, {"team": "FC Cincinnati", "neg": 52.66, "neg_count": 15068, "total": 28616}, {"team": "Real Salt Lake", "neg": 52.01, "neg_count": 2825, "total": 5432}, {"team": "Toronto FC", "neg": 52.01, "neg_count": 8279, "total": 15918}, {"team": "Orlando City SC", "neg": 51.36, "neg_count": 5879, "total": 11447}, {"team": "Seattle Sounders FC", "neg": 51.36, "neg_count": 13877, "total": 27017}, {"team": "LAFC", "neg": 51.23, "neg_count": 13330, "total": 26018}, {"team": "New York Red Bulls", "neg": 51.21, "neg_count": 3794, "total": 7408}, {"team": "Atlanta United", "neg": 50.82, "neg_count": 14456, "total": 28443}, {"team": "Minnesota United FC", "neg": 50.62, "neg_count": 20432, "total": 40363}, {"team": "LA Galaxy", "neg": 49.62, "neg_count": 5161, "total": 10400}, {"team": "Charlotte FC", "neg": 49.44, "neg_count": 8402, "total": 16993}, {"team": "Vancouver Whitecaps FC", "neg": 49.15, "neg_count": 9857, "total": 20055}, {"team": "Austin FC", "neg": 49.11, "neg_count": 9096, "total": 18523}, {"team": "Philadelphia Union", "neg": 48.88, "neg_count": 15258, "total": 31214}, {"team": "St. Louis City SC", "neg": 48.84, "neg_count": 17050, "total": 34911}, {"team": "New England Revolution", "neg": 48.72, "neg_count": 3312, "total": 6798}, {"team": "Colorado Rapids", "neg": 48.32, "neg_count": 2230, "total": 4615}, {"team": "San Jose Earthquakes", "neg": 48.23, "neg_count": 5912, "total": 12257}, {"team": "D.C. United", "neg": 47.33, "neg_count": 6414, "total": 13553}, {"team": "Columbus Crew", "neg": 46.97, "neg_count": 16891, "total": 35964}, {"team": "Portland Timbers", "neg": 46.61, "neg_count": 11795, "total": 25305}, {"team": "New York City FC", "neg": 45.84, "neg_count": 3801, "total": 8291}, {"team": "Chicago Fire FC", "neg": 43.41, "neg_count": 11986, "total": 27609}, {"team": "Houston Dynamo FC", "neg": 43.29, "neg_count": 3058, "total": 7064}, {"team": "FC Dallas", "neg": 43.14, "neg_count": 1013, "total": 2348}, {"team": "Nashville SC", "neg": 41.82, "neg_count": 4034, "total": 9646}], "positive": [{"team": "Nashville SC", "pos": 28.07, "pos_count": 2708, "total": 9646}, {"team": "D.C. United", "pos": 25.27, "pos_count": 3425, "total": 13553}, {"team": "Portland Timbers", "pos": 24.37, "pos_count": 6166, "total": 25305}, {"team": "Colorado Rapids", "pos": 23.6, "pos_count": 1089, "total": 4615}, {"team": "Chicago Fire FC", "pos": 23.5, "pos_count": 6488, "total": 27609}, {"team": "New England Revolution", "pos": 23.42, "pos_count": 1592, "total": 6798}, {"team": "FC Dallas", "pos": 23.25, "pos_count": 546, "total": 2348}, {"team": "Real Salt Lake", "pos": 21.98, "pos_count": 1194, "total": 5432}, {"team": "Columbus Crew", "pos": 21.82, "pos_count": 7846, "total": 35964}, {"team": "St. Louis City SC", "pos": 21.8, "pos_count": 7611, "total": 34911}, {"team": "Houston Dynamo FC", "pos": 21.67, "pos_count": 1531, "total": 7064}, {"team": "San Jose Earthquakes", "pos": 21.34, "pos_count": 2616, "total": 12257}, {"team": "Austin FC", "pos": 21.07, "pos_count": 3902, "total": 18523}, {"team": "Vancouver Whitecaps FC", "pos": 20.8, "pos_count": 4172, "total": 20055}, {"team": "Orlando City SC", "pos": 20.77, "pos_count": 2378, "total": 11447}, {"team": "CF Montréal", "pos": 20.63, "pos_count": 371, "total": 1798}, {"team": "Minnesota United FC", "pos": 20.51, "pos_count": 8279, "total": 40363}, {"team": "Philadelphia Union", "pos": 20.26, "pos_count": 6324, "total": 31214}, {"team": "Charlotte FC", "pos": 20.24, "pos_count": 3440, "total": 16993}, {"team": "New York City FC", "pos": 20.13, "pos_count": 1669, "total": 8291}, {"team": "New York Red Bulls", "pos": 19.78, "pos_count": 1465, "total": 7408}, {"team": "LA Galaxy", "pos": 19.76, "pos_count": 2055, "total": 10400}, {"team": "FC Cincinnati", "pos": 19.63, "pos_count": 5617, "total": 28616}, {"team": "LAFC", "pos": 18.98, "pos_count": 4939, "total": 26018}, {"team": "Inter Miami CF", "pos": 18.72, "pos_count": 5975, "total": 31916}, {"team": "Sporting Kansas City", "pos": 18.5, "pos_count": 1658, "total": 8962}, {"team": "Seattle Sounders FC", "pos": 18.28, "pos_count": 4938, "total": 27017}, {"team": "Atlanta United", "pos": 18.15, "pos_count": 5163, "total": 28443}, {"team": "San Diego FC", "pos": 17.23, "pos_count": 2444, "total": 14182}, {"team": "Toronto FC", "pos": 16.4, "pos_count": 2611, "total": 15918}], "keywords": [{"team": "Atlanta United", "word": "Sh*t", "count": 510}, {"team": "Austin FC", "word": "Sh*t", "count": 292}, {"team": "CF Montréal", "word": "Sh*t", "count": 18}, {"team": "Charlotte FC", "word": "Sh*t", "count": 344}, {"team": "Chicago Fire FC", "word": "Sh*t", "count": 334}, {"team": "Colorado Rapids", "word": "F**k / Sh*t", "count": 65, "tie": true}, {"team": "Columbus Crew", "word": "Sh*t", "count": 585}, {"team": "D.C. United", "word": "Sh*t", "count": 226}, {"team": "FC Cincinnati", "word": "Sh*t", "count": 503}, {"team": "FC Dallas", "word": "Sh*t", "count": 29}, {"team": "Houston Dynamo FC", "word": "Sh*t", "count": 69}, {"team": "Inter Miami CF", "word": "Sh*t", "count": 715}, {"team": "LA Galaxy", "word": "Sh*t", "count": 206}, {"team": "LAFC", "word": "Sh*t", "count": 521}, {"team": "Minnesota United FC", "word": "Sh*t", "count": 633}, {"team": "Nashville SC", "word": "F**k", "count": 120}, {"team": "New England Revolution", "word": "Sh*t", "count": 91}, {"team": "New York City FC", "word": "Sh*t", "count": 146}, {"team": "New York Red Bulls", "word": "Sh*t", "count": 104}, {"team": "Orlando City SC", "word": "Sh*t", "count": 274}, {"team": "Philadelphia Union", "word": "Sh*t", "count": 597}, {"team": "Portland Timbers", "word": "F**k", "count": 507}, {"team": "Real Salt Lake", "word": "Sh*t", "count": 71}, {"team": "San Diego FC", "word": "Sh*t", "count": 283}, {"team": "San Jose Earthquakes", "word": "Sh*t", "count": 167}, {"team": "Seattle Sounders FC", "word": "Sh*t", "count": 418}, {"team": "Sporting Kansas City", "word": "Sh*t", "count": 191}, {"team": "St. Louis City SC", "word": "Sh*t", "count": 559}, {"team": "Toronto FC", "word": "Sh*t", "count": 297}, {"team": "Vancouver Whitecaps FC", "word": "Sh*t", "count": 222}]};
+
+const EXCLUDED = [];
+const TAGS = { no_sub: "No subreddit", low_vol: "Not enough comments" };
+
+const CONFIG = {
+  vulgar:   { title: "Ranked by % of comments containing profanity", note: "High &rarr; Low" },
+  negative: { title: "Ranked by % of negative-sentiment comments", note: "High &rarr; Low" },
+  keywords: { title: "The most used swear word per fandom", note: "Alphabetical" }, // change note to "Alphabetical" if uniform word league-wide
+  positive: { title: "Ranked by % of positive-sentiment comments", note: "High &rarr; Low" },
+  polite:   { title: "Ranked by % of comments containing profanity", note: "Low &rarr; High" }
+};
+
+const SUBLABELS = { vulgar: "vulgar comments", negative: "negative comments", positive: "positive comments" };
+
+
+let searchTerm = "";
+function norm(x){ return x.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'').replace(/[^a-z0-9 ]/g,''); }
+function matches(team){ return !searchTerm || norm(team).includes(searchTerm); }
+function noResults(){ return '<div class="no-results">No clubs match your search</div>'; }
+let currentView = "vulgar";
+const TROPHIES = ["\u{1F947}","\u{1F948}","\u{1F949}"];
+
+function fmtPct(n){ return n.toFixed(2) + "%"; }
+
+function renderList(view){
+  const rows = DATA[view];
+  let maxVal = 0;
+  if(view==="vulgar" || view==="polite") maxVal = Math.max(...rows.map(r=>r.vulgar_pct));
+  if(view==="negative") maxVal = Math.max(...rows.map(r=>r.neg));
+  if(view==="positive") maxVal = Math.max(...rows.map(r=>r.pos));
+
+  let rank = 0;
+  let html = "";
+  rows.forEach((r) => {
+    rank += 1;
+    if(!matches(r.team)) return;
+    const isTop = rank <= 3;
+    let val, subLabel, subCount;
+    if(view==="vulgar" || view==="polite"){ val = r.vulgar_pct; subCount = r.vulgar_count; subLabel = SUBLABELS.vulgar; }
+    if(view==="negative"){ val = r.neg; subCount = r.neg_count; subLabel = SUBLABELS.negative; }
+    if(view==="positive"){ val = r.pos; subCount = r.pos_count; subLabel = SUBLABELS.positive; }
+    const toneClass = view==="positive" ? "pos" : (view==="polite" ? "polite" : (view==="negative" ? "neg" : ""));
+    const width = (val/maxVal*100).toFixed(1);
+    html += `
+      <div class="row ${isTop ? 'top '+toneClass : ''}">
+        <div class="rank">${isTop ? '<span class="trophy">'+TROPHIES[rank-1]+'</span>' : rank}</div>
+        <div class="team-line">
+          <div class="team-name">${r.team}</div>
+          <div class="bar-track"><div class="bar-fill ${toneClass}" style="width:${width}%"></div></div>
+        </div>
+        <div>
+          <div class="pct">${fmtPct(val)}</div>
+          <div class="subtxt">${subCount.toLocaleString('en-US')} ${subLabel}</div>
+        </div>
+      </div>`;
+  });
+  if(!html) html = noResults();
+  html += renderExcluded();
+  return html;
+}
+
+function renderKeywords(){
+  const rows = DATA.keywords;
+  const maxVal = Math.max(...rows.map(r=>r.count));
+  let html = "";
+  rows.forEach((r) => {
+    if(!matches(r.team)) return;
+    const width = (r.count/maxVal*100).toFixed(1);
+    html += `
+      <div class="row kwrow">
+        <div class="team-line">
+          <div class="team-name">${r.team}</div>
+          <div class="bar-track"><div class="bar-fill kw" style="width:${width}%"></div></div>
+        </div>
+        <div>
+          <div style="margin-bottom:4px;text-align:right;"><span style="font-family:'Space Mono',monospace;font-weight:700;color:var(--gold);background:rgba(255,193,69,0.16);border:1px solid rgba(255,193,69,0.35);padding:2px 8px;border-radius:5px;font-size:10.5px;">${r.word}</span></div>
+          <div class="pct">${r.count.toLocaleString('en-US')}</div>
+          <div class="subtxt">uses recorded</div>
+        </div>
+      </div>`;
+  });
+  if(!html) html = noResults();
+  html += renderExcluded();
+  return html;
+}
+
+function renderExcluded(){
+  if(!EXCLUDED.length) return "";
+  let html = `<div class="excluded-heading">Not included in the ranking</div>`;
+  EXCLUDED.forEach((r) => {
+    html += `
+      <div class="status-row">
+        <div></div>
+        <div class="status-team">${r.team}</div>
+        <div class="status-tag">${TAGS[r.reason]}</div>
+      </div>`;
+  });
+  return html;
+}
+
+function setView(view){
+  currentView = view;
+  const cfg = CONFIG[view];
+  document.getElementById('panelTitle').textContent = cfg.title.replace('&rarr;','\u2192');
+  document.getElementById('panelNote').innerHTML = cfg.note;
+  document.getElementById('main').innerHTML = view === "keywords" ? renderKeywords() : renderList(view);
+
+  document.querySelectorAll('.tab').forEach(t => {
+    t.classList.toggle('active', t.dataset.view === view);
+  });
+}
+
+document.querySelectorAll('.tab').forEach(t => {
+  t.addEventListener('click', () => setView(t.dataset.view));
+});
+
+const searchEl = document.getElementById('search');
+const clearEl = document.getElementById('searchClear');
+searchEl.addEventListener('input', () => {
+  searchTerm = norm(searchEl.value.trim());
+  clearEl.style.display = searchEl.value ? 'block' : 'none';
+  setView(currentView);
+});
+clearEl.addEventListener('click', () => {
+  searchEl.value = ''; searchTerm = ''; clearEl.style.display = 'none';
+  setView(currentView); searchEl.focus();
+});
+setView('vulgar');
+</script>
+
+</body>
+</html>
